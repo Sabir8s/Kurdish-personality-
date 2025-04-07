@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ku" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تێستی کەسایەتی Big Five (وەشانی فراوانکراو)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Noto Sans Arabic', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #343a40;
+            direction: rtl;
+        }
+        .container {
+            max-width: 900px; /* فراوانتر بۆ پرسیاری زیاتر */
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #dee2e6;
+        }
+        h1 {
+            text-align: center;
+            color: #0056b3;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+         h2 {
+             text-align: center;
+             color: #17a2b8;
+             margin-bottom: 25px;
+             font-weight: 700;
+         }
+        .intro-text {
+             text-align: center;
+             color: #6c757d;
+             margin-bottom: 30px;
+             font-size: 1.1em;
+         }
+         .warning-text {
+             text-align: center;
+             color: #dc3545; /* سوور */
+             margin-bottom: 30px;
+             font-size: 0.95em;
+             font-weight: bold;
+         }
+        .question {
+            margin-bottom: 25px;
+            padding: 15px 20px;
+            background-color: #fdfdff;
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            transition: box-shadow 0.3s ease;
+        }
+        .question:nth-child(even) { /* ڕەنگی پاشبنەمای جیاواز بۆ خوێندنەوەی ئاسانتر */
+             background-color: #f8f9fa;
+        }
+        .question:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .question p {
+            margin: 0 0 15px 0;
+            font-weight: bold;
+            color: #495057;
+            font-size: 1.05em;
+        }
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between; /* باشترە بۆ ٥ هەڵبژاردە */
+            gap: 10px; /* بۆشایی نێوان هەڵبژاردەکان */
+        }
+        .options label {
+            /* لادانی margin-left */
+            margin-bottom: 5px; /* کەمکردنەوەی بۆشایی خوارەوە */
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            background-color: #f1f3f5;
+            padding: 6px 14px; /* کەمێک گەورەتر */
+            border-radius: 15px;
+            transition: background-color 0.3s ease;
+            font-size: 0.95em;
+            flex-grow: 1; /* هەوڵدان بۆ پڕکردنەوەی بۆشایی */
+            justify-content: center; /* ناوەندکردنی دەق */
+            min-width: 120px; /* کەمترین پانی بۆ هەر هەڵبژاردەیەک */
+            text-align: center;
+        }
+        .options label:hover {
+            background-color: #e9ecef;
+        }
+        .options input[type="radio"]:checked + span {
+             font-weight: bold;
+             color: #0056b3;
+         }
+         .options input[type="radio"] {
+             margin-left: 8px;
+             cursor: pointer;
+             opacity: 0; /* شاردنەوەی خاڵی ڕادیۆ */
+             width: 0;
+             height: 0;
+             position: absolute; /* دەرکردنی لە flow */
+         }
+         /* ستایل بۆ کاتێک ڕادیۆ هەڵدەبژێردرێت */
+         .options input[type="radio"]:checked + span {
+            /* دەتوانیت لێرە ستایلی زیاتر زیاد بکەیت، بۆ نموونە گۆڕینی background ی لەیبڵەکە */
+         }
+         .options label span {
+             display: inline-block;
+         }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #0056b3, #004085);
+            box-shadow: 0 4px 10px rgba(0, 86, 179, 0.4);
+        }
+        #results {
+            margin-top: 40px;
+            padding: 30px;
+            background-color: #eef7ff;
+            border-radius: 12px;
+            border: 1px solid #cce5ff;
+        }
+        .result-item {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #cce5ff;
+        }
+        .result-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .result-item strong {
+            color: #0056b3;
+            font-size: 1.2em;
+        }
+         .result-item .percentage {
+             font-weight: bold;
+             color: #28a745;
+             font-size: 1.1em;
+             margin-right: 10px;
+         }
+          .result-item .interpretation {
+             color: #5a6268;
+             font-style: italic;
+             margin-top: 8px; /* زیاترکردنی بۆشایی */
+             display: block;
+             line-height: 1.6; /* باشترکردنی خوێندنەوەی شیکردنەوە */
+         }
+         .level-low { color: #dc3545; }
+         .level-medium { color: #ffc107; }
+         .level-high { color: #28a745; }
+
+
+         footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ced4da;
+            color: #6c757d;
+            font-size: 1em; /* کەمێک گەورەتر */
+            line-height: 1.6;
+         }
+         .error {
+             color: #dc3545;
+             background-color: #f8d7da;
+             border: 1px solid #f5c6cb;
+             padding: 10px 15px;
+             border-radius: 5px;
+             font-weight: bold;
+             text-align: center;
+             margin: 20px 0;
+             display: none;
+         }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>تێستی کەسایەتی Big Five (وەشانی فراوانکراو)</h1>
+    <p class="intro-text">تکایە بە وردی و ڕاستگۆییەوە دیاری بکە تا چەند لەگەڵ هەر یەک لەم ڕستانەی خوارەوەدایت. هەوڵ بدە زۆر بیر نەکەیتەوە و یەکەم وەڵام کە بە مێشکتدا دێت هەڵبژێریت.</p>
+    <p class="warning-text">تێبینی: ئەم تاقیکردنەوەیە ئامرازێکی دەستنیشانکردنی کلینیکی نییە و جێگەی ڕاوێژی پسپۆڕ ناگرێتەوە.</p>
+
+    <form id="personality-test">
+
+        <!-- ٥٠ پرسیار، ١٠ بۆ هەر تایبەتمەندییەک -->
+        <div class="question"> <p>١. من کەسێکی خەیاڵیم و حەزم لە بیرۆکەی نوێیە.</p> <div class="options"> <label><input type="radio" name="q1" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q1" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q1" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q1" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q1" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٢. زۆر گرنگی بە ڕێکخستنی کارەکانم و شوێنەکەم دەدەم.</p> <div class="options"> <label><input type="radio" name="q2" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q2" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q2" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q2" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q2" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٣. حەز دەکەم لە ناوەندی سەرنجی خەڵکدا بم.</p> <div class="options"> <label><input type="radio" name="q3" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q3" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q3" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q3" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q3" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٤. زۆر گرنگی بە هەست و پێداویستی کەسانی تر دەدەم.</p> <div class="options"> <label><input type="radio" name="q4" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q4" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q4" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q4" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q4" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٥. زوو زوو هەست بە دڵەڕاوکێ و نیگەرانی دەکەم.</p> <div class="options"> <label><input type="radio" name="q5" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q5" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q5" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q5" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q5" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٦. من زیاتر حەزم لە شتی پراکتیکییە تا بیرۆکەی ئەبستراکت. (پێچەوانە)</p> <div class="options"> <label><input type="radio" name="q6" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q6" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q6" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q6" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q6" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٧. زۆرجار کارەکانم دوادەخەم تا دوا سات. (پێچەوانە)</p> <div class="options"> <label><input type="radio" name="q7" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q7" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q7" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q7" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q7" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٨. من زیاتر کەسێکی بێدەنگ و لەسەرخۆم لە کۆڕ و کۆبوونەوەکاندا. (پێچەوانە)</p> <div class="options"> <label><input type="radio" name="q8" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q8" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q8" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q8" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q8" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٩. من زیاتر حەز دەکەم ڕکابەری بکەم تا هاوکاری. (پێچەوانە)</p> <div class="options"> <label><input type="radio" name="q9" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q9" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q9" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q9" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q9" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>١٠. من بە گشتی کەسێکی ئارام و جێگیرم لە ڕووی هەستەوە. (پێچەوانە)</p> <div class="options"> <label><input type="radio" name="q10" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q10" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q10" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q10" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q10" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+
+        <div class="question"> <p>١١. من چێژ لە گفتوگۆی فیکری و فەلسەفی وەردەگرم.</p> <div class="options"> <label><input type="radio" name="q11" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q11" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q11" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q11" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q11" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>١٢. هەمیشە پلان بۆ کارەکانم دادەنێم و پێیەوە پابەند دەبم.</p> <div class="options"> <label><input type="radio" name="q12" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q12" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q12" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q12" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q12" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>١٣. من پڕم لە وزە و حەزم لە چالاکی زۆرە.</p> <div class="options"> <label><input type="radio" name="q13" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q13" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q13" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q13" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q13" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>١٤. من متمانەم بە خەڵکی تر هەیە و باوەڕم وایە نیازپاکن.</p> <div class="options"> <label><input type="radio" name="q14" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q14" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q14" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q14" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q14" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>١٥. من زوو هەست بە بێزاری یان خەمۆکی دەکەم.</p> <div class="options"> <label><input type="radio" name="q15" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q15" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q15" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q15" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q15" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>١٦. من زۆر حەزم لە هونەر و جوانی سروشت نییە. (پێچەوانە)</p> <div class="options"> <label><input type="radio" name="q16" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q16" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q16" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q16" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q16" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>١٧. من هەندێک جار شتەکانم لە شوێنی خۆیان دانانێمەوە. (پێچەوانە)</p> <div class="options"> <label><input type="radio" name="q17" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q17" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q17" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q17" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q17" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>١٨. من حەز ناکەم زۆر قسە بکەم و زیاتر گوێ دەگرم. (پێچەوانە)</p> <div class="options"> <label><input type="radio" name="q18" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q18" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q18" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q18" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q18" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>١٩. من زۆرجار ڕەخنە لە کەموکوڕی خەڵکی تر دەگرم. (پێچەوانە)</p> <div class="options"> <label><input type="radio" name="q19" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q19" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q19" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q19" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q19" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٢٠. من زۆر بە کەمی هەست بە سترێس و فشار دەکەم. (پێچەوانە)</p> <div class="options"> <label><input type="radio" name="q20" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q20" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q20" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q20" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q20" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+
+        <div class="question"> <p>٢١. من حەزم لە تاقیکردنەوەی خواردنی نوێ و جیاوازە.</p> <div class="options"> <label><input type="radio" name="q21" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q21" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q21" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q21" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q21" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٢٢. من کەسێکی زۆر وردبینم لە کارەکانمدا.</p> <div class="options"> <label><input type="radio" name="q22" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q22" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q22" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q22" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q22" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٢٣. من بە ئاسانی هاوڕێی نوێ پەیدا دەکەم.</p> <div class="options"> <label><input type="radio" name="q23" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q23" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q23" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q23" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q23" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٢٤. من زۆر بە بەزەیی و هاوسۆزم بەرامبەر ئەوانی تر.</p> <div class="options"> <label><input type="radio" name="q24" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q24" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q24" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q24" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q24" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٢٥. من زوو زوو میزاج و باری دەروونیم دەگۆڕێت.</p> <div class="options"> <label><input type="radio" name="q25" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q25" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q25" value="3"><span>تاڕادەیەک</span></label> <label><input type="radio" name="q25" value="4"><span>ڕازیم</span></label> <label><input type="radio" name="q25" value="5"><span>زۆر ڕازیم</span></label> </div> </div>
+        <div class="question"> <p>٢٦. من زیاتر حەزم لە ڕێگا ناسراوەکانە تا ئەزموونی نوێ. (پێچەوانە)</p> <div class="options"> <label><input type="radio" name="q26" value="1"><span>زۆر ناڕازیم</span></label> <label><input type="radio" name="q26" value="2"><span>ناڕازیم</span></label> <label><input type="radio" name="q26" value="3"><span>تاڕادەیەک</span></label> <la
